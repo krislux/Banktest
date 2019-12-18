@@ -1,0 +1,10 @@
+{
+    "name": "interview/banktest",
+    "type": "library",
+    "require": {},
+	"autoload": {
+	    "psr-4": {
+		    "": "src/"
+		}
+	}
+}
