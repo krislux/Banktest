@@ -43,12 +43,12 @@ if ($expected_postal_address !== $postal_address) {
  * Create two bank accounts and add them to a bank
  */
 $first_account_number = 'ab01';
-$first_account = new Account();
-$first_account->setAccountNumber($first_account_number, $bank);
+$first_account = new Account($bank);
+$first_account->setAccountNumber($first_account_number);
 
 $second_account_number = 'qj42';
-$second_account = new Account();
-$second_account->setAccountNumber($second_account_number, $bank);
+$second_account = new Account($bank);
+$second_account->setAccountNumber($second_account_number);
 
 $bank->addBankAccount($first_account);
 $bank->addBankAccount($second_account);

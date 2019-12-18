@@ -39,6 +39,23 @@ class Account
      */
     private $withdrawals = [];
 
+    /**
+     * Reference to bank, must be injected.
+     * @var \BankTest\Bank
+     */
+    private $bank;
+
+
+    /**
+     * Constructor takes reference to bank
+     *
+     * @param \BankTest\Bank $bank  The bank that owns this account
+     */
+    public function __construct(Bank $bank)
+    {
+        $this->bank = $bank;
+    }
+
 
     /**
      * Set/change account's number
@@ -49,18 +66,18 @@ class Account
      * @throws UnexpectedValueException
      * @return void
      */
-    public function setAccountNumber(string $account_number, Bank $bank): void
+    public function setAccountNumber(string $account_number): void
     {
         if (! preg_match('/^[a-z0-9]+$/i', $account_number)) {
             throw new InvalidArgumentException('Account number must be alphanumeric and not empty');
         }
 
         // Here I need to ensure the account number is unique, which requires access to the bank.
-        // Seeing as I don't want to create a tight coupling, I'm going to need the bank as an argument.
+        // Seeing as I don't want to create a tight coupling, I'm going to need the bank injected.
         // Could probably be fixed nicer, perhaps with some kind of BankHandler superclass in which
         // both objects could be injected.
         // Depending on how account numbers work, I could even need a list of all accounts in all banks.
-        $existing_account_numbers = $bank->getAccountNumbers();
+        $existing_account_numbers = $this->bank->getAccountNumbers();
         if (in_array($account_number, $existing_account_numbers)) {
             throw new UnexpectedValueException('Account number already in use');
         }
